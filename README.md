@@ -142,6 +142,65 @@ Generate HTML reports visualizing the differences between API versions:
   run: oasdiff diff api/v1/openapi.yaml api/v2/openapi.yaml --format html > report.html
 ```
 
+## Practical Example: Proper API Versioning
+
+This repository includes a practical example of how to properly handle API changes. Here's what we did:
+
+### Before: Breaking Change (Rejected by Pre-commit Hook)
+
+Initially, we attempted to remove the `name` property completely from the Pet schema in v2:
+
+```yaml
+# Breaking change that was rejected
+Pet:
+  type: object
+  required:
+    - id
+  properties:
+    id:
+      type: integer
+    # name property has been removed completely - this breaks compatibility!
+```
+
+This change was detected by oasdiff as breaking backward compatibility and was rejected by the pre-commit hook.
+
+### After: Proper Versioning with Deprecation
+
+We then applied proper versioning by:
+
+1. **Keeping but deprecating** the original property:
+
+```yaml
+name:
+  type: string
+  deprecated: true
+  description: "This field is deprecated and will be removed in v3.0.0. Use 'displayName' instead."
+```
+
+2. **Adding a replacement** field:
+
+```yaml
+displayName:
+  type: string
+  description: "The display name of the pet. Replaces the deprecated 'name' field."
+```
+
+3. **Documenting the changes** in the OpenAPI specification:
+
+```yaml
+description: |
+  # API Changes in 2.0.0
+  
+  ## Deprecations
+  - The `name` property in Pet schema is deprecated and will be removed in v3.0.0
+  
+  ## New Features
+  - Added `displayName` property to Pet schema to replace the deprecated `name` field
+  - Added `id` as a required property for Pet objects
+```
+
+This approach maintains backward compatibility while clearly communicating the path forward for API consumers.
+
 ## Best Practices
 
 1. Always increment the API version appropriately when introducing breaking changes
