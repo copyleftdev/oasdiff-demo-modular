@@ -15,8 +15,8 @@ jobs:
 
       - name: Install oasdiff
         run: |
-          curl -fsSL https://raw.githubusercontent.com/Tufin/oasdiff/main/install.sh | sh
-          sudo mv ./oasdiff /usr/local/bin/
+          curl -fsSL https://raw.githubusercontent.com/oasdiff/oasdiff/main/install.sh | sh
+          # oasdiff is now installed to /usr/local/bin by the script
 
       - name: Run Breaking Change Check
         run: bash scripts/check-breaking.sh
