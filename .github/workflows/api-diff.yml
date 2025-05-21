@@ -13,10 +13,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Install oasdiff
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '^1.21'
+
+      - name: Install oasdiff using Go
         run: |
-          curl -fsSL https://raw.githubusercontent.com/oasdiff/oasdiff/main/install.sh | sh
-          # oasdiff is now installed to /usr/local/bin by the script
+          go install github.com/oasdiff/oasdiff@latest
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
       - name: Run Breaking Change Check
         run: bash scripts/check-breaking.sh
