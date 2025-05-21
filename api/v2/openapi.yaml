@@ -2,6 +2,15 @@ openapi: 3.0.3
 info:
   title: Pet API
   version: "2.0.0"
+  description: |
+    # API Changes in 2.0.0
+    
+    ## Deprecations
+    - The `name` property in Pet schema is deprecated and will be removed in v3.0.0
+    
+    ## New Features
+    - Added `displayName` property to Pet schema to replace the deprecated `name` field
+    - Added `id` as a required property for Pet objects
 paths:
   /pets:
     get:

@@ -1,10 +1,15 @@
 Pet:
   type: object
   required:
-    - name
     - id
+    - displayName
   properties:
     id:
-      type: string
+      type: integer
     name:
       type: string
+      deprecated: true
+      description: "This field is deprecated and will be removed in v3.0.0. Use 'displayName' instead."
+    displayName:
+      type: string
+      description: "The display name of the pet. Replaces the deprecated 'name' field."
