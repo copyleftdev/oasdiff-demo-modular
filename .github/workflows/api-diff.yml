@@ -1,0 +1,22 @@
+name: API Breaking Change Check
+
+on:
+  push:
+    paths:
+      - 'api/**'
+      - 'scripts/**'
+
+jobs:
+  check-breaking-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install oasdiff
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/Tufin/oasdiff/main/install.sh | sh
+          sudo mv ./oasdiff /usr/local/bin/
+
+      - name: Run Breaking Change Check
+        run: bash scripts/check-breaking.sh

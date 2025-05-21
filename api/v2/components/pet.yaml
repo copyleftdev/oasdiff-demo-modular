@@ -1,0 +1,10 @@
+Pet:
+  type: object
+  required:
+    - name
+    - id
+  properties:
+    id:
+      type: string
+    name:
+      type: string
